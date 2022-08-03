@@ -98,7 +98,8 @@ const Condition = {
     TOOL: {name: 'Tool', container: true, construct: ConditionTool},
     VALUE: {name: 'Value', container: true, construct: ConditionValue},
     WATER: {name: 'Water', container: true, construct: ConditionWater},
-    WEATHER: {name: 'Weather', container: true, construct: ConditionWeather}
+    WEATHER: {name: 'Weather', container: true, construct: ConditionWeather},
+    DATA: {name: 'Data', container: true, construct: ConditionData}
 };
 
 /**
@@ -181,7 +182,8 @@ const Mechanic = {
     WARP_TARGET: {name: 'Warp Target', container: false, construct: MechanicWarpTarget},
     WARP_VALUE: {name: 'Warp Value', container: false, construct: MechanicWarpValue},
     WOLF: {name: 'Wolf', container: true, construct: MechanicWolf},
-    DATA_SET: {name: 'Data Set', container: false, construct: MechanicDataSet}
+    DATA_SET: {name: 'Data Set', container: false, construct: MechanicDataSet},
+    DATA_EDIT: {name: 'Data Edit', container: false, construct: MechanicDataEdit}
 };
 
 let saveIndex;
@@ -1458,6 +1460,24 @@ function ConditionValue() {
 
     this.data.push(new StringValue('Key', 'key', 'value')
         .setTooltip('The unique string used for the value set by the Value mechanics.')
+    );
+    this.data.push(new AttributeValue('Min Value', 'min-value', 1, 0)
+        .setTooltip('The lower bound of the required value')
+    );
+    this.data.push(new AttributeValue('Max Value', 'max-value', 999, 0)
+        .setTooltip('The upper bound of the required value')
+    );
+}
+
+extend('ConditionData', 'Component');
+
+function ConditionData() {
+    this.super('Data', Type.CONDITION, true);
+
+    this.description = '判断Data在某个区间';
+
+    this.data.push(new StringValue('Key', 'key', '标签ID')
+        .setTooltip('{uuid}会自动替换')
     );
     this.data.push(new AttributeValue('Min Value', 'min-value', 1, 0)
         .setTooltip('The lower bound of the required value')
@@ -2972,7 +2992,7 @@ function MechanicDataSet() {
 
     this.description = '设置一个Data数据 采用 {uuid} 进行私有化';
 
-    this.data.push(new StringValue('Key', 'key', 'value')
+    this.data.push(new StringValue('Key', 'key', '标签ID')
         .setTooltip('唯一识别标签 {uuid} 会被进行替换为 施法者的UUID')
     );
     this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
@@ -2980,15 +3000,19 @@ function MechanicDataSet() {
     );
 }
 
+extend('MechanicDataEdit', 'Component');
 function MechanicDataEdit() {
     this.super('Data Edit', Type.MECHANIC, false);
 
-    this.description = '设置一个Data数据 采用 {uuid} 进行私有化';
+    this.description = '修改一个Data + - * /  key [action] value';
 
-    this.data.push(new StringValue('Key', 'key', 'value')
+    this.data.push(new StringValue('Key', 'key', '标签ID')
         .setTooltip('唯一识别标签 {uuid} 会被进行替换为 施法者的UUID')
     );
-    this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
+    this.data.push(new StringValue('Action', 'action', '符号')
+        .setTooltip('+ - * /')
+    );
+    this.data.push(new AttributeValue('Value', 'value', 1, 0)
         .setTooltip('数字内容')
     );
 }
