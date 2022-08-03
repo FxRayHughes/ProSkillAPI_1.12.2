@@ -215,8 +215,11 @@ public class ComponentRegistry {
         register(new ValueCondition());
         register(new WaterCondition());
         register(new WeatherCondition());
+        register(new DataCondition());
 
         // Mechanics
+        register(new DataSetMechanic());
+        register(new DataEditMechanic());
         register(new ArmorMechanic());
         register(new ArmorStandMechanic());
         register(new ArmorStandPoseMechanic());
