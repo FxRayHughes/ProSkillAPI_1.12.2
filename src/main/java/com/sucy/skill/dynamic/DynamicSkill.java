@@ -1,21 +1,21 @@
 /**
  * SkillAPI
  * com.sucy.skill.dynamic.DynamicSkill
- *
+ * <p>
  * The MIT License (MIT)
- *
+ * <p>
  * Copyright (c) 2014 Steven Sucy
- *
+ * <p>
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software") to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- *
+ * <p>
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * <p>
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -53,19 +53,19 @@ import static com.sucy.skill.dynamic.ComponentRegistry.getTrigger;
  * A skill implementation for the Dynamic system
  */
 public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, Listener {
-    private final List<TriggerHandler>         triggers   = new ArrayList<>();
+    private final List<TriggerHandler> triggers = new ArrayList<>();
     private final Map<String, EffectComponent> attribKeys = new HashMap<>();
-    private final Map<Integer, Integer>        active     = new HashMap<>();
+    private final Map<Integer, Integer> active = new HashMap<>();
 
-    private static final HashMap<Integer, HashMap<String, Object>> castData   = new HashMap<>();
+    private static final HashMap<Integer, HashMap<String, Object>> castData = new HashMap<>();
 
     private TriggerComponent castTrigger;
     private TriggerComponent initializeTrigger;
     private TriggerComponent cleanupTrigger;
 
-    private boolean cancel     = false;
-    private double  multiplier = 1;
-    private double  bonus      = 0;
+    private boolean cancel = false;
+    private double multiplier = 1;
+    private double bonus = 0;
 
     /**
      * Initializes a new dynamic skill
@@ -89,7 +89,6 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      * Checks whether or not the caster's passives are currently active
      *
      * @param caster caster to check for
-     *
      * @return true if active, false otherwise
      */
     public boolean isActive(final LivingEntity caster) {
@@ -100,7 +99,6 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      * Retrieves the active level of the caster for the skill
      *
      * @param caster caster of the skill
-     *
      * @return active level of the skill
      */
     public int getActiveLevel(final LivingEntity caster) {
@@ -156,11 +154,12 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      * Retrieves the cast data for the caster
      *
      * @param caster caster to get the data for
-     *
      * @return cast data for the caster
      */
     public static HashMap<String, Object> getCastData(final LivingEntity caster) {
-        if (caster == null) { return null; }
+        if (caster == null) {
+            return null;
+        }
         HashMap<String, Object> map = castData.get(caster.getEntityId());
         if (map == null) {
             map = new HashMap<>();
@@ -247,7 +246,6 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      *
      * @param user  user of the skill
      * @param level skill level
-     *
      * @return true if casted successfully, false if conditions weren't met or no effects are using the cast trigger
      */
     @Override
@@ -287,14 +285,15 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      * path overhead.
      *
      * @param key attribute key
-     *
      * @return formatted attribute name
      */
     @Override
     protected String getAttrName(String key) {
         if (key.contains(".")) {
             return TextFormatter.format(key.substring(key.lastIndexOf('.') + 1));
-        } else { return super.getAttrName(key); }
+        } else {
+            return super.getAttrName(key);
+        }
     }
 
     /**
@@ -306,7 +305,6 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
      * @param caster owner of the skill
      * @param key    attribute key
      * @param level  skill level
-     *
      * @return attribute value or 0 if invalid dynamic path
      */
     @Override
@@ -317,11 +315,15 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
             final String attr = path[1].toLowerCase();
             if (attribKeys.containsKey(path[0]) && attribKeys.get(path[0]).settings.has(attr)) {
                 return format(attribKeys.get(path[0]).parseValues(caster, attr, level, 0));
-            } else { return 0; }
+            } else {
+                return 0;
+            }
         }
 
         // Otherwise get the attribute normally
-        else { return super.getAttr(caster, key, level); }
+        else {
+            return super.getAttr(caster, key, level);
+        }
     }
 
     private boolean trigger(
@@ -342,7 +344,9 @@ public class DynamicSkill extends Skill implements SkillShot, PassiveSkill, List
         super.load(config);
 
         final DataSection triggers = config.getSection("components");
-        if (triggers == null) { return; }
+        if (triggers == null) {
+            return;
+        }
 
         for (final String key : triggers.keys()) {
             final String modified = key.replaceAll("-.+", "");

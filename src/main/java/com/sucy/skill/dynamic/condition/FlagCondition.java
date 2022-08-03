@@ -38,7 +38,7 @@ public class FlagCondition extends ConditionComponent {
 
     @Override
     boolean test(final LivingEntity caster, final int level, final LivingEntity target) {
-        final String flag = settings.getString(KEY);
+        final String flag = settings.getString(KEY).replace("{uuid}", caster.getUniqueId().toString());
         final boolean set = !settings.getString(TYPE, "set").toLowerCase().equals("not set");
         return FlagManager.hasFlag(target, flag) == set;
     }

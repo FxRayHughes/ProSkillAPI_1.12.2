@@ -60,7 +60,7 @@ public class FlagClearMechanic extends MechanicComponent
             return false;
         }
 
-        String key = settings.getString(KEY);
+        String key = settings.getString(KEY).replace("{uuid}", caster.getUniqueId().toString());;
         for (LivingEntity target : targets)
         {
             FlagManager.removeFlag(target, key);

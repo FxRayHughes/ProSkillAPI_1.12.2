@@ -54,8 +54,7 @@ function checkRequireValue(e) {
         }
         if (visible) {
             requireData.element.show();
-        }
-        else {
+        } else {
             requireData.element.hide();
         }
     }

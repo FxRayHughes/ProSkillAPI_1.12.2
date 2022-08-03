@@ -60,7 +60,7 @@ public class FlagToggleMechanic extends MechanicComponent
             return false;
         }
 
-        String key = settings.getString(KEY);
+        String key = settings.getString(KEY).replace("{uuid}", caster.getUniqueId().toString());;
         for (LivingEntity target : targets)
         {
             if (FlagManager.hasFlag(target, key))

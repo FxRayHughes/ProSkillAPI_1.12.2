@@ -32,7 +32,9 @@ public class DefaultCombatProtection implements CombatProtection {
             NoCheatHook.exempt(player);
             canAttack = Protection.canAttack(attacker, defender);
             NoCheatHook.unexempt(player);
-        } else { canAttack = CombatProtection.canAttack(attacker, defender, false); }
+        } else {
+            canAttack = CombatProtection.canAttack(attacker, defender, false);
+        }
 
         return canAttack;
     }
