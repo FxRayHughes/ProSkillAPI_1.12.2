@@ -2998,9 +2998,13 @@ function MechanicDataSet() {
     this.data.push(new AttributeValue('Amount', 'amount', 1, 0)
         .setTooltip('数字内容')
     );
+    this.data.push(new AttributeValue('Tick', 'tick', -1, 0)
+        .setTooltip('有效时间 -1为无限')
+    );
 }
 
 extend('MechanicDataEdit', 'Component');
+
 function MechanicDataEdit() {
     this.super('Data Edit', Type.MECHANIC, false);
 
